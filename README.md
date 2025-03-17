@@ -24,12 +24,6 @@ IVSS is a multi-camera integrated video surveillance system built in Python. It 
   - **System Settings:** Configure camera sources and select detections (with options to delete additional camera sources, while keeping the first as default).
   - **Face Registration:** A web-based form to register new faces and update face encodings.
 
-## Prerequisites
-
-- Python 3.8 or higher
-- Git
-- Ubuntu (for running the project) and Windows (for team contributions)
-- Required libraries are listed in `requirements.txt`
 
 ## Installation
 
