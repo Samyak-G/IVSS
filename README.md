@@ -31,3 +31,21 @@ IVSS is a multi-camera integrated video surveillance system built in Python. It 
    ```bash
    git clone <your-repo-url>
    cd <repository-folder>
+
+## Set Up a Virtual Environment
+
+Create a virtual environment to manage dependencies:
+```bash
+python -m venv venv
+```
+Activate it :
+```bash
+venv\Scripts\activate
+```
+
+### Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+
