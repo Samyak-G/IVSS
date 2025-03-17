@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Face</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="bg-[#1B1D36] text-gray-100">
+    <nav class="bg-[#14162E] h-16 flex items-center px-4 shadow">
+      <div class="text-xl font-bold">IVSS</div>
+    </nav>
+    <div class="p-6">
+        <h1 class="text-2xl font-bold mb-4">Register Face</h1>
+        {% if message %}
+            <p class="mb-4 text-green-400">{{ message }}</p>
+        {% endif %}
+        <form action="{{ url_for('register_face') }}" method="post" enctype="multipart/form-data" class="space-y-4">
+            <div>
+                <label for="person_name" class="block font-semibold">Person Name:</label>
+                <input type="text" name="person_name" id="person_name" required class="w-full p-2 rounded bg-gray-800 text-gray-200">
+            </div>
+            <div>
+                <label for="face_image" class="block font-semibold">Upload Face Image:</label>
+                <input type="file" name="face_image" id="face_image" accept="image/*" required class="w-full p-2 rounded bg-gray-800 text-gray-200">
+            </div>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Register Face</button>
+        </form>
+    </div>
+</body>
+</html>
+
