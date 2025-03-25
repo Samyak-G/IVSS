@@ -30,14 +30,20 @@ def gen_frames(shm_name):
     shm.close()
 
 def load_camera_settings():
+    """Loads user-configured camera settings from file."""
     if os.path.exists("camera_settings.json"):
         with open("camera_settings.json", "r") as f:
             data = json.load(f)
-            if data and isinstance(data[0], str):
+            # If the data is a list and the first element is a dict,
+            # assume the settings are in the new format.
+            if isinstance(data, list) and data and isinstance(data[0], dict):
+                return data
+            # Otherwise, if it's legacy (a list of strings), convert them.
+            elif isinstance(data, list):
                 return [{"source": src, "detections": ["motion", "object", "face"]} for src in data]
-            return data
-    else:
-        return [{"source": "0", "detections": ["motion", "object", "face"]}]
+    # Default settings if file does not exist.
+    return [{"source": "0", "detections": ["motion", "object", "face"]}]
+
 
 @app.route('/')
 def dashboard():
@@ -80,11 +86,12 @@ def dashboard_stats():
 
 @app.route('/api/alerts')
 def api_alerts():
-    # Modified query to include the camera field for each alert.
-    conn = sqlite3.connect('alerts.db')
+    db_path = os.path.join(os.getcwd(), 'alerts.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute("SELECT camera, location, time, message, severity FROM alerts ORDER BY id DESC")
     rows = c.fetchall()
+    print("[DEBUG] Fetched alerts:", rows)  # Debug logging
     conn.close()
     alerts_list = []
     for row in rows:
@@ -97,16 +104,20 @@ def api_alerts():
         })
     return jsonify(alerts_list)
 
+
 @app.route('/api/save_camera_settings', methods=['POST'])
 def save_camera_settings():
     data = request.get_json()
     cameras = data.get("cameras", [])
-    # Ensure the first camera is always present and its source is not empty.
-    if len(cameras) == 0 or not cameras[0].get("source"):
+    # If no cameras are provided or the first camera's source is empty,
+    # insert a default first camera.
+    if not cameras or not cameras[0].get("source"):
         cameras.insert(0, {"source": "0", "detections": ["motion", "object", "face"]})
+    # Otherwise, leave the detections array as sent—even if it’s empty.
     with open("camera_settings.json", "w") as f:
         json.dump(cameras, f)
     return jsonify({"status": "success", "cameras": cameras})
+
 
 
 # -----------------------------------------------

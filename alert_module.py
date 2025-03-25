@@ -51,7 +51,8 @@ def send_local_notification(title, message):
     )
 
 def store_alert(camera, location, message, severity):
-    conn = sqlite3.connect('alerts.db')
+    db_path = os.path.join(os.getcwd(), 'alerts.db')
+    conn = sqlite3.connect(db_path)
     c = conn.cursor()
     c.execute('''
     CREATE TABLE IF NOT EXISTS alerts (
@@ -68,6 +69,8 @@ def store_alert(camera, location, message, severity):
               (camera, location, alert_time, message, severity))
     conn.commit()
     conn.close()
+    print(f"[DEBUG] Stored alert: {camera}, {location}, {alert_time}, {message}, {severity}")
+
 
 def alert_process(object_queue, face_queue, motion_queue):
     """
@@ -108,7 +111,7 @@ def alert_process(object_queue, face_queue, motion_queue):
                         send_email_notification("Person Detected", "A person has been detected.")
                         send_local_notification("Person Detected", "A person has been detected.")
                         
-        # Process face recognition alerts.
+        # P        # Process face recognition alerts.
         if not face_queue.empty():
             face_event = face_queue.get()
             cam_id = face_event.get("cam_id")
@@ -116,18 +119,13 @@ def alert_process(object_queue, face_queue, motion_queue):
             if cam_id is not None and cam_id < len(camera_settings):
                 detections_enabled = camera_settings[cam_id].get("detections", [])
                 if detection_type in detections_enabled:
-                    if face_event.get('name') == 'Unknown':
-                        store_alert(f"Camera {cam_id}", "Face Recognition",
-                                    "An unknown face has been detected.", "high")
-                        send_email_notification("Unknown Face Detected", "An unknown face has been detected.")
-                        send_local_notification("Unknown Face Detected", "An unknown face has been detected.")
-                    elif face_event.get('name') == 'Specific Individual':  # Replace with your logic.
-                        store_alert(f"Camera {cam_id}", "Face Recognition",
-                                    f"{face_event.get('name')} has been detected.", "high")
-                        send_email_notification(f"{face_event.get('name')} Detected",
-                                                f"{face_event.get('name')} has been detected.")
-                        send_local_notification(f"{face_event.get('name')} Detected",
-                                                f"{face_event.get('name')} has been detected.")
+                    # Alert for any face detection regardless of recognition result.
+                    detected_name = face_event.get('name', 'Unknown')
+                    alert_message = f"Face detected: {detected_name}"
+                    store_alert(f"Camera {cam_id}", "Face Recognition", alert_message, "high")
+                    send_email_notification("Face Detected", alert_message)
+                    send_local_notification("Face Detected", alert_message)
+
         
         # Avoid busy looping.
         time.sleep(0.05)
