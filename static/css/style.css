@@ -1,6 +1,5 @@
-/* General Styles */
 :root {
-    --primary-color: #3498db;
+    --primary-color: #384b58;
     --secondary-color: #2c3e50;
     --success-color: #2ecc71;
     --error-color: #e74c3c;
@@ -49,7 +48,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-/* Control Panel */
 .control-panel {
     display: flex;
     justify-content: space-between;
@@ -125,7 +123,6 @@ h2 {
     background-color: var(--error-color);
 }
 
-/* Main Content */
 .main-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -144,7 +141,7 @@ h2 {
     position: relative;
     width: 100%;
     height: 0;
-    padding-bottom: 75%; /* 4:3 aspect ratio */
+    padding-bottom: 75%;
     overflow: hidden;
     border-radius: 4px;
     background-color: #000;
@@ -208,3 +205,32 @@ h2 {
     font-size: 0.9rem;
     background-color: #e8f4fc;
     padding: 2px 6px;
+}
+
+.alert-container {
+    background-color: var(--card-background);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.alert-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.no-alerts {
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.alert-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--primary-color);
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
