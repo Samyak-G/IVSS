@@ -1,2 +1,4 @@
 # Ignore alerts database file
 alerts.db
+alert_frame_cam0.jpg
+object_detection_cam0.jpg
