@@ -244,9 +244,15 @@ def capture_frame(cam_id):
 
 # 🔹 Send Email with Attachment (✅ FIXED)
 def send_email_notification(subject, message, attachment_path=None):
+
     sender_email = "shafaqali.3101@gmail.com"
     receiver_email = "khuninha0109@gmail.com"
     password = "rryc jjyi hcrx pdqg"
+
+    sender_email = "samyakgajghate2613@gmail.com"
+    receiver_email = "samyakgajghate1319@gmail.com"
+    password = "ryrw gmfx auuv pifd"
+
 
     msg = MIMEMultipart()
     msg['From'] = sender_email
