@@ -171,6 +171,7 @@ from multiprocessing import shared_memory
 import numpy as np
 import os
 import json
+import time
 
 from video_capture import video_capture_process
 from motion_detection import motion_detection_process
@@ -222,10 +223,9 @@ if __name__ == "__main__":
         detections = cam_config.get("detections", [])
         shm_name = f"video_frame_shm_{i}"
         
-        # ✅ Fix: Convert np.prod(FRAME_SHAPE) to int to avoid numpy.int64 issue
-        shared_mem = shared_memory.SharedMemory(create=True, size=int(np.prod(FRAME_SHAPE)), name=shm_name)
-        
-        shared_mem_list.append(shared_mem)
+        # Create shared memory using the helper function to avoid FileExistsError
+        shm = create_shared_memory(shm_name, int(np.prod(FRAME_SHAPE)))
+        shared_mem_list.append(shm)
         
         # Start video capture process
         processes.append(mp.Process(target=video_capture_process, args=(shm_name, FRAME_SHAPE, source, i)))
@@ -238,7 +238,7 @@ if __name__ == "__main__":
         if "face" in detections:
             processes.append(mp.Process(target=face_recognition_process, args=(shm_name, FRAME_SHAPE, face_queue, i)))
     
-    # Alert processing module
+    # Start the alert process (which uses the updated alert_module from your teammate)
     processes.append(mp.Process(target=alert_process, args=(object_queue, face_queue, motion_queue)))
     
     try:
@@ -248,17 +248,14 @@ if __name__ == "__main__":
             p.join()
     finally:
         print("\n[INFO] Shutting down all processes...")
-
-        # Terminate all running processes
+        # Terminate any remaining processes
         for p in processes:
             if p.is_alive():
                 p.terminate()
                 p.join()
-
-        # Release shared memory
+        # Release shared memory blocks
         for shm in shared_mem_list:
             shm.close()
             shm.unlink()
-
         print("[INFO] Cleanup complete.")
 

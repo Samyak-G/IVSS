@@ -30,6 +30,7 @@ import numpy as np
 import os
 import time
 from multiprocessing import shared_memory
+import time
 
 # 🔹 Motion Detection Process
 def motion_detection_process(shm_name, shape, motion_queue, cam_id):
@@ -38,7 +39,11 @@ def motion_detection_process(shm_name, shape, motion_queue, cam_id):
     bg_subtractor = cv2.createBackgroundSubtractorMOG2(history=50, varThreshold=25)
 
     while True:
+        # Optional: small delay to help synchronization with video capture
+        time.sleep(0.01)
+        
         frame = frame_buffer.copy()
+
 
         # ✅ Ensure the frame is valid before processing
         if frame is None or frame.size == 0:
@@ -68,7 +73,7 @@ def motion_detection_process(shm_name, shape, motion_queue, cam_id):
 def save_motion_frame(frame, cam_id):
     image_path = f"motion_alert_cam{cam_id}.jpg"
     
-    # ✅ Save and validate the image
+    #  Save and validate the image
     cv2.imwrite(image_path, frame)
     if os.path.exists(image_path) and os.path.getsize(image_path) > 0:
         print(f"[INFO] Motion frame saved: {image_path}")
@@ -79,4 +84,3 @@ def save_motion_frame(frame, cam_id):
 
 if __name__ == "__main__":
     print("Run main.py to start the system.")
-
