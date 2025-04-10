@@ -206,17 +206,6 @@ def save_detection_image(frame, cam_id, detection_type):
     else:
         print(f"[ERROR] Failed to save {detection_type} detection image for Camera {cam_id}.")
         return None
-def create_shared_memory(shm_name, size):
-    try:
-        shm = shared_memory.SharedMemory(create=True, size=size, name=shm_name)
-    except FileExistsError:
-        # If the shared memory block already exists, close and unlink it, then create a new one.
-        existing_shm = shared_memory.SharedMemory(name=shm_name)
-        existing_shm.close()
-        existing_shm.unlink()
-        shm = shared_memory.SharedMemory(create=True, size=size, name=shm_name)
-    return shm
-
 
 if __name__ == "__main__":
     camera_settings = load_camera_settings()  # List of dicts: {"source": "...", "detections": [...]}
