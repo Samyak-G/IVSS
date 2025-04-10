@@ -172,6 +172,7 @@ import numpy as np
 import os
 import json
 import time
+import cv2  # Import OpenCV for image processing
 
 from video_capture import video_capture_process
 from motion_detection import motion_detection_process
