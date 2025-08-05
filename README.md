@@ -1,4 +1,4 @@
-# 🔐 Intelligent Video survillence System
+# 🔐 Intelligent Video Survillence System
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Flask](https://img.shields.io/badge/Flask-3.1.0-green.svg)](https://flask.palletsprojects.com/)
@@ -239,12 +239,4 @@ Check application logs in:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- [OpenCV](https://opencv.org/) for computer vision capabilities
-- [Ultralytics YOLO](https://ultralytics.com/) for object detection
-- [Face Recognition](https://github.com/ageitgey/face_recognition) library
-- [Flask](https://flask.palletsprojects.com/) for web framework
-
-**⭐ If you find this project useful, please consider giving it a star!**
 
