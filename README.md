@@ -45,8 +45,8 @@ A comprehensive AI-powered security monitoring system featuring real-time face r
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/security-monitoring-system.git
-   cd security-monitoring-system
+   git clone https://github.com/yourusername/IVSS.git
+   cd IVSS
    ```
 
 2. **Set Up Virtual Environment:**
@@ -202,45 +202,6 @@ pytest --cov=src tests/
 gunicorn -w 4 -b 0.0.0.0:5000 "src.web.app:app"
 ```
 
-### Docker Deployment
-
-```bash
-# Build image
-docker build -t security-monitoring .
-
-# Run container
-docker run -p 5000:5000 security-monitoring
-```
-
-## 🔒 Security Considerations
-
-- **Environment Variables:** Never commit `.env` files with sensitive data
-- **Model Files:** Large model files are excluded from Git (use Git LFS if needed)
-- **Database:** Use PostgreSQL in production, SQLite for development
-- **HTTPS:** Always use HTTPS in production environments
-- **Authentication:** Implement proper user authentication for web interface
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Development Setup
-
-```bash
-# Install development dependencies
-pip install -r requirements-dev.txt
-
-# Install pre-commit hooks
-pre-commit install
-
-# Run code formatting
-black src/
-```
-
 ## 📊 Performance Metrics
 
 - **Face Recognition Accuracy:** 95%+
@@ -284,16 +245,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Ultralytics YOLO](https://ultralytics.com/) for object detection
 - [Face Recognition](https://github.com/ageitgey/face_recognition) library
 - [Flask](https://flask.palletsprojects.com/) for web framework
-
-## 📞 Support
-
-For support and questions:
-
-- 📧 Email: [support@example.com](mailto:support@example.com)
-- 💬 Issues: [GitHub Issues](https://github.com/yourusername/security-monitoring-system/issues)
-- 📖 Documentation: [Wiki](https://github.com/yourusername/security-monitoring-system/wiki)
-
----
 
 **⭐ If you find this project useful, please consider giving it a star!**
 
